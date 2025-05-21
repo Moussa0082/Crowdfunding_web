@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
+import { AppSideLoginComponent } from './pages/authentication/side-login/side-login.component';
 
 export const routes: Routes = [
   {
@@ -24,6 +25,13 @@ export const routes: Routes = [
             (m) => m.UiComponentsRoutes
           ),
       },
+      {
+        path: 'admin',
+        loadChildren: () =>
+          import('./admin/admin-components.routes').then(
+            (m) => m.AdminComponentsRoutes
+          ),
+      },
       // {
       //   path: 'login',
       //   loadChildren: () =>
@@ -40,8 +48,12 @@ export const routes: Routes = [
   },
   {
     path: '',
-    component: BlankComponent,
+    component: AppSideLoginComponent,
     children: [
+      // {
+      //   path: 'login',
+      //   component: AppSideLoginComponent,
+      // },
       {
         path: 'authentication',
         loadChildren: () =>

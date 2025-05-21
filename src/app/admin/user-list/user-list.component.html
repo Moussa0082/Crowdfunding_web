@@ -1,0 +1,275 @@
+<mat-card class="cardWithShadow">
+    <mat-card-content>
+      <mat-card-title>Liste des utilisateurs</mat-card-title>
+  
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" class="w-100">
+          <!-- Position Column -->
+          <!-- <ng-container matColumnDef="actif">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Statut
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center" [ngStyle]="{ color: element.actif ? 'green' : 'red' }">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.actif ? "Actif" : "Inactif" }}  
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container> -->
+          <ng-container matColumnDef="actif">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Statut
+            </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-slide-toggle
+                
+                (change)="element.statut ?  onActivate(element) : onDesActivate(element)"
+                [color]="element.statut ? 'primary' : 'red'">
+                <!-- {{element.enabled === true ? 'Activer' : 'Desactiver'}} -->
+                {{ element.actif ? "Actif" : "Inactif" }} 
+              </mat-slide-toggle>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="prenom">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Prenom
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.prenom }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nom">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Nom
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.nom }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="numero">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Numéro
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.numero }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="roleUtilisateur">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Rôle
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.roleUtilisateur }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nonStructure">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Nom Structure
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.nonStructure }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="photo">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Photo
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.photo }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Email
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.email }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+       
+          
+          <ng-container matColumnDef="refreshToken">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              RefreshToken
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.refreshToken != null ? element.refreshToken : "Pas dispo"}}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateInscription">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Date Inscription
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.dateInscription }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dateModif">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14 p-l-0">
+              Date de modification
+            </th>
+            <td mat-cell *matCellDef="let element" class="p-l-0">
+              <div class="d-flex align-items-center">
+                
+                <div class="m-l-16">
+                  <h6 class="f-s-14 f-w-600">
+                    {{ element.dateModif != null ? element.dateModif : "Pas modifier" }}
+                  </h6>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+  
+          <!-- Name Column -->
+          <!-- <ng-container matColumnDef="dateInscription">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
+              Date Inscription
+            </th>
+            <td mat-cell *matCellDef="let element">
+              @if(element.budget >= 160) {
+              <h6 class=" f-s-16 m-b-4">
+                <span class="text-dark f-w-600">${{ element.budget }} </span>/ 499
+              </h6>
+              <span class="f-s-14 f-w-500 d-block m-b-4">Full paid</span>
+              <mat-progress-bar mode="determinate" value="80" color="primary"></mat-progress-bar>
+              } @else if(element.budget > 119) {
+              <h6 class=" f-s-16 m-b-4">
+                <span class="text-dark f-w-600">${{ element.budget }} </span>/ 499
+              </h6>
+              <span class="f-s-14 f-w-500 d-block m-b-4">Partially paid</span>
+              <mat-progress-bar mode="determinate" class="mat-error" value="35" color="accent"></mat-progress-bar>
+              } @else if(element.budget < 100) { <h6 class=" f-s-16 m-b-4">
+                <span class="text-dark f-w-600">${{ element.budget }} </span>/ 499
+                </h6>
+                <span class="f-s-14 f-w-500 d-block m-b-4">Cancelled</span>
+                <mat-progress-bar mode="determinate" class="mat-warning" value="50" color="warn"></mat-progress-bar>
+                }
+            </td>
+          </ng-container> -->
+  
+          <!-- Weight Column -->
+          <!-- <ng-container matColumnDef="priority">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14">
+              Status
+            </th>
+            <td mat-cell *matCellDef="let element">
+              @if(element.priority == 'cancelled') {
+              <span class="bg-light-warning text-warning rounded f-w-600 p-6 p-y-4 f-s-12">
+                {{ element.priority | titlecase }}
+              </span>
+              } @if(element.priority == 'rejected') {
+              <span class="bg-light-error text-error rounded f-w-600 p-6 p-y-4 f-s-12">
+                {{ element.priority | titlecase }}
+              </span>
+              } @if(element.priority == 'confirmed') {
+              <span class="bg-light-success text-success rounded f-w-600 p-6 p-y-4 f-s-12">
+                {{ element.priority | titlecase }}
+              </span>
+              }
+            </td>
+          </ng-container> -->
+  
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef class="f-w-600 f-s-14"></th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>add</mat-icon>
+                  <span>Add</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>edit</mat-icon>
+                  <span>Edit</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </mat-card-content>
+  </mat-card>

@@ -41,9 +41,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [],
+  // imports: [ BrowserModule, FormsModule ],
   exports: [
     MatAutocompleteModule,
     MatCheckboxModule,

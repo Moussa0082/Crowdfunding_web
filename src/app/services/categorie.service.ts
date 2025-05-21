@@ -18,7 +18,6 @@ export class CategorieService {
     apiUrl: string = environment.apiUrl + this.baseUrl
     constructor(private http: HttpClient) { 
     }
-
   
     triggerUpdate() {
       this.updateEvent.next();
