@@ -14,6 +14,26 @@ export const navItems: NavItem[] = [
     iconName: 'users',
     route: 'admin/user-list',
   },
+  {
+    displayName: 'Liste contribution',
+    iconName: 'users',
+    route: 'admin/contribution-list',
+  },
+  {
+    displayName: 'Liste campagne',
+    iconName: 'users',
+    route: 'admin/campagne-list',
+  },
+  {
+    displayName: 'Liste categorie',
+    iconName: 'users',
+    route: 'admin/categorie-list',
+  },
+  {
+    displayName: 'Liste contact',
+    iconName: 'users',
+    route: 'admin/contact-list',
+  },
   // {
   //   displayName: 'Analytical',
   //   iconName: 'aperture',

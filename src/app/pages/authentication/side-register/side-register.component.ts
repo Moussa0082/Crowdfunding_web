@@ -5,10 +5,28 @@ import { Router } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/material.module';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-side-register',
-  imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
+  // imports: [RouterModule, MaterialModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    FormsModule,
+    MaterialModule,
+    RouterModule,
+      ReactiveFormsModule,
+      CommonModule,
+      MatDialogModule,
+      MatFormFieldModule,
+            MatCardModule,
+            MatIconModule,
+            MatButtonModule,
+      ],
   templateUrl: './side-register.component.html',
 })
 export class AppSideRegisterComponent {

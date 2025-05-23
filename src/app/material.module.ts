@@ -31,7 +31,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRippleModule } from '@angular/material/core';
+import { MatOption, MatRippleModule } from '@angular/material/core';
 // Material Popups & Modals
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -42,25 +42,83 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddUpUserComponent } from './admin/add-up-user/add-up-user.component';
+import { RouterModule } from '@angular/router';
+
+// @NgModule({
+//   declarations: [
+//   ],
+//   imports: [
+//      FormsModule,
+//      MaterialModule,
+//      RouterModule,
+//        ReactiveFormsModule,
+//        CommonModule,
+//        MatDialogModule,
+//        MatFormFieldModule,
+//              MatCardModule,
+//              MatIconModule,
+//              MatButtonModule,
+//        ],
+//   exports: [
+//     MatAutocompleteModule,
+//     MatCheckboxModule,
+//     MatDatepickerModule,
+//     MatFormFieldModule,
+//     MatInputModule,
+//     MatRadioModule,
+//     MatSelectModule,
+//     MatSliderModule,
+//     MatSlideToggleModule,
+//     MatMenuModule,
+//     MatSidenavModule,
+//     MatToolbarModule,
+//     // MatCardModule,
+//     MatDividerModule,
+//     MatExpansionModule,
+//     MatGridListModule,
+//     MatListModule,
+//     MatStepperModule,
+//     MatTabsModule,
+//     MatTreeModule,
+//     MatButtonModule,
+//     MatButtonToggleModule,
+//     MatBadgeModule,
+//     MatChipsModule,
+//     MatIconModule,
+//     MatProgressSpinnerModule,
+//     MatProgressBarModule,
+//     MatRippleModule,
+//     MatBottomSheetModule,
+//     MatDialogModule,
+//     MatSnackBarModule,
+//     MatTooltipModule,
+//     MatPaginatorModule,
+//     MatSortModule,
+//     MatTableModule,
+//   ],
+// })
+// export class MaterialModule {}
 
 @NgModule({
-  declarations: [],
-  // imports: [ BrowserModule, FormsModule ],
-  exports: [
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    // Angular Material modules
     MatAutocompleteModule,
     MatCheckboxModule,
     MatDatepickerModule,
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    MatSelectModule,
     MatSliderModule,
     MatSlideToggleModule,
     MatMenuModule,
     MatSidenavModule,
     MatToolbarModule,
-    MatCardModule,
     MatDividerModule,
     MatExpansionModule,
     MatGridListModule,
@@ -83,6 +141,47 @@ import { FormsModule } from '@angular/forms';
     MatPaginatorModule,
     MatSortModule,
     MatTableModule,
+    MatCardModule,
+    MatSelectModule,
+  ],
+  exports: [
+    // mêmes modules que dans imports
+    MatAutocompleteModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatRadioModule,
+    MatSelectModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatMenuModule,
+    MatSidenavModule,
+    MatToolbarModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatListModule,
+    MatStepperModule,
+    MatTabsModule,
+    MatTreeModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatBadgeModule,
+    MatChipsModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatRippleModule,
+    MatBottomSheetModule,
+    MatDialogModule,
+    MatSnackBarModule,
+    MatTooltipModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    MatCardModule,
+    
   ],
 })
 export class MaterialModule {}

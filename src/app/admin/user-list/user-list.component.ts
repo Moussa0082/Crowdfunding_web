@@ -12,6 +12,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
 import Swal from 'sweetalert2';
+import { AddUpUserComponent } from '../add-up-user/add-up-user.component';
 
 @Component({
   selector: 'app-user-list',
@@ -123,7 +124,29 @@ export class UserListComponent implements OnInit{
         }
       });
     }
+
+    openDialog(utilisateur?: Utilisateur): void {
+      const dialogRef = this.dialog.open(AddUpUserComponent, {
+        width: '500px',
+        data: { utilisateur }
+      });
     
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // console.log('Dialog closed with result:', result);
+          this.chargerDonner();
+        } else {
+          // console.log('Dialog closed without result');
+        }
+      });
+    }
+  
+    editElement(utilisateur: Utilisateur): void {
+      this.openDialog(utilisateur);
+      // console.log("user open dialog: ", user);
+    }
+
+  
     onActivate(element: Utilisateur) {
       // Sauvegardez l'état initial du switch
       this.tempStatus = element.actif;
@@ -137,7 +160,7 @@ export class UserListComponent implements OnInit{
         cancelButtonText: 'Non, garde-le'
       }).then((result) => {
         if (result.isConfirmed) {
-          this.utilisateurService.desactiverUtilisateur(element.idUtilisateur).subscribe(
+          this.utilisateurService.activerUtilisateur(element.idUtilisateur).subscribe(
             () => {
               Swal.fire(
                 'Activation!',
@@ -214,5 +237,9 @@ export class UserListComponent implements OnInit{
         this.dataSource.paginator.firstPage();
       }
   }
+
+
+  
+
 
 }

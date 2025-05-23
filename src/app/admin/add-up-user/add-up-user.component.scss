@@ -1,0 +1,112 @@
+// .full-width {
+//   width: 100%;
+//   margin-bottom: 16px;
+// }
+
+// .image-preview-card {
+//   margin-top: 10px;
+//   border: 1px solid #ccc;
+//   border-radius: 8px;
+//   max-width: 200px;
+// }
+
+// .image-preview {
+//   width: 100%;
+//   height: auto;
+//   border-radius: 4px;
+// }
+
+// .dialog-button {
+//   margin-right: 8px;
+// }
+/* Styles pour le composant Angular (par exemple, dans user-dialog.component.scss) */
+
+// .mat-dialog-content {
+//   padding: 20px 24px; // Ajoute un padding pour un meilleur espacement interne
+//   overflow: hidden; // Évite les barres de défilement indésirables si le contenu est trop grand
+// }
+
+.mat-dialog-container {
+  max-width: 500px; /* Ajustez la largeur du dialogue ici */
+  padding: 20px; /* Espace autour du contenu du dialogue */
+}
+
+.mat-dialog-content {
+  padding: 0; /* Réduit le padding dans le contenu du dialogue */
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+ 
+
+
+.col {
+  flex: 1;
+  margin: 0 10px;
+ }
+
+.user-form {
+  display: flex;
+  flex-direction: column; // Empile les rangées verticalement
+  gap: 15px; // Espacement entre les "form-row"
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap; // Permet aux éléments de passer à la ligne si l'espace est insuffisant
+  gap: 20px; // Espacement entre les champs de formulaire sur la même ligne
+  width: 100%; // Prend toute la largeur de la ligne
+}
+
+.form-field-spacing {
+  flex: 1; // Permet aux champs de prendre l'espace disponible de manière égale
+  // min-width: 250px; // Largeur minimale pour éviter qu'ils ne soient trop compressés
+  // margin-bottom: 10px; // Optionnel : si tu veux un espacement vertical entre les champs dans la même "row"
+}
+
+.full-width {
+  width: 100%; // Pour les champs qui doivent occuper toute la largeur d'une ligne
+}
+
+/* Styles pour le bouton de chargement d'image */
+.image-upload-section {
+  display: flex;
+  flex-direction: column; // Empile le bouton et la prévisualisation
+  align-items: flex-start; // Aligne les éléments à gauche
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.file-upload-button {
+  display: inline-flex; // Pour aligner l'icône et le texte
+  align-items: center;
+  gap: 8px; // Espacement entre l'icône et le texte
+}
+
+.image-preview-card {
+  width: 200px; // Largeur de la carte de prévisualisation
+  max-width: 100%;
+  padding: 0; // Pas de padding interne pour la carte pour que l'image prenne toute la place
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.image-preview {
+  width: 100%;
+  height: auto;
+  display: block; // Enlève l'espace blanc en bas de l'image
+  border-radius: 4px; // Petits bords arrondis
+}
+
+/* Styles pour les mat-error */
+mat-error {
+  font-size: 12px;
+  margin-top: -15px; // Rapproche le message d'erreur du champ
+  margin-bottom: 5px; // Laisse un petit espace en dessous
+}
+
+/* Styles spécifiques pour le mat-select si besoin */
+mat-form-field mat-select {
+  width: 100%; // S'assure que le select prend la largeur disponible
+}

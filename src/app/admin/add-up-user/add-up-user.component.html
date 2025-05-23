@@ -1,0 +1,193 @@
+<!-- 
+
+<h2 mat-dialog-title>{{ isEditMode ? 'Modifier un utilisateur' : 'Ajouter un utilisateur' }}</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="userForm">
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-label>Nom Structure</mat-label>
+          <input matInput formControlName="nomStructure" required>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <mat-form-field appearance="fill">
+          <mat-label>Prénom</mat-label>
+          <input matInput formControlName="prenom" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="nom" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Téléphone</mat-label>
+          <input matInput formControlName="numero" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Adresse</mat-label>
+          <input matInput formControlName="addresse" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="!isEditMode">
+          <mat-label>Mot de passe</mat-label>
+          <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+          <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Afficher / Cacher le mot de passe'" type="button">
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Rôle utilisateur</mat-label>
+          <mat-select formControlName="roleUtilisateur" required>
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="user">Utilisateur</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-slide-toggle formControlName="actif">Actif</mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col">
+        <label for="file-upload" class="file-upload-label">
+          <input type="file" id="file-upload" (change)="onFileChange($event)" style="display: none;" accept="image/*">
+          <span class="file-upload-text">Charger une image</span>
+        </label>
+        <mat-card *ngIf="imagePreview" class="image-preview-card">
+          <img [src]="imagePreview" class="image-preview" alt="Image Preview">
+        </mat-card>
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-button color="primary" (click)="onSaves()">{{ isEditMode ? 'Modifier' : 'Ajouter' }}</button>
+</mat-dialog-actions> -->
+
+<h2 mat-dialog-title>{{ isEditMode ? 'Modifier un utilisateur' : 'Ajouter un utilisateur' }}</h2>
+
+<mat-dialog-content> 
+  <form [formGroup]="userForm"> 
+       <mat-form-field appearance="fill" >
+         <mat-label>Nom Structure</mat-label>
+        <input matInput formControlName="nonStructure" required>
+        <mat-error *ngIf="userForm.controls['nonStructure'].hasError('required') && userForm.controls['nonStructure'].touched">
+          Le nom de la structure est requis.
+        </mat-error>
+      </mat-form-field>
+
+    <!-- <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-spacing">
+        <mat-label>Prénom</mat-label>
+        <input matInput formControlName="prenom" required>
+        <mat-error *ngIf="userForm.controls['prenom'].hasError('required') && userForm.controls['prenom'].touched">
+          Le prénom est requis.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field-spacing">
+        <mat-label>Nom</mat-label>
+        <input matInput formControlName="nom" required>
+        <mat-error *ngIf="userForm.controls['nom'].hasError('required') && userForm.controls['nom'].touched">
+          Le nom est requis.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-spacing">
+        <mat-label>Téléphone</mat-label>
+        <input matInput formControlName="numero" required>
+        <mat-error *ngIf="userForm.controls['numero'].hasError('required') && userForm.controls['numero'].touched">
+          Le téléphone est requis.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="form-field-spacing">
+        <mat-label>Adresse</mat-label>
+        <input matInput formControlName="addresse" required>
+        <mat-error *ngIf="userForm.controls['addresse'].hasError('required') && userForm.controls['addresse'].touched">
+          L'adresse est requise.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-row">
+      <mat-form-field appearance="outline" class="form-field-spacing">
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" required type="email"> <mat-error *ngIf="userForm.controls['email'].hasError('required') && userForm.controls['email'].touched">
+          L'email est requis.
+        </mat-error>
+        <mat-error *ngIf="userForm.controls['email'].hasError('email') && userForm.controls['email'].touched">
+          Format d'email invalide.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" *ngIf="!isEditMode" class="form-field-spacing">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Afficher / Cacher le mot de passe'" type="button">
+          <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="userForm.controls['password'].hasError('required') && userForm.controls['password'].touched">
+          Le mot de passe est requis.
+        </mat-error>
+      </mat-form-field>
+    </div> -->
+
+    <!-- <div class="form-row"> -->
+      <!-- <mat-form-field > <mat-label>Rôle utilisateur</mat-label>
+        <mat-select formControlName="roleUtilisateur" required>
+          <mat-option value="admin">Admin</mat-option>
+          <mat-option value="user">Utilisateur</mat-option>
+        </mat-select>
+        <mat-error *ngIf="userForm.controls['roleUtilisateur'].hasError('required') && userForm.controls['roleUtilisateur'].touched">
+          Le rôle utilisateur est requis.
+        </mat-error>
+      </mat-form-field> -->
+
+      <!-- <mat-form-field appearance="fill">
+        <mat-label>Rôle</mat-label>
+        <mat-select formControlName="roleUtilisateur" required>
+          <mat-option value="admin">Admin</mat-option>
+          <mat-option value="user">Utilisateur</mat-option>       
+        </mat-select>
+        <mat-error *ngIf="userForm.controls['roleUtilisateur'].hasError('required') && userForm.controls['roleUtilisateur'].touched">
+          Le rôle utilisateur est requis.
+        </mat-error>
+      </mat-form-field> -->
+
+      <!-- </div> -->
+
+    <!-- <div class="form-row image-upload-section">
+      <input type="file" id="file-upload" (change)="onFileChange($event)" style="display: none;" accept="image/*">
+      <label for="file-upload" class="mat-raised-button mat-primary file-upload-button"> <mat-icon>cloud_upload</mat-icon>
+        <span>Charger une image</span>
+      </label>
+      <mat-card *ngIf="imagePreview" class="image-preview-card">
+        <img [src]="imagePreview" class="image-preview" alt="Image Preview">
+      </mat-card>
+    </div> -->
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end"> <button mat-button (click)="onNoClick()">Annuler</button>
+  <button mat-raised-button color="primary" (click)="onSaves()" [disabled]="userForm.invalid"> {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+  </button>
+</mat-dialog-actions>
