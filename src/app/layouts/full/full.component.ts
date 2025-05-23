@@ -34,7 +34,7 @@ const TABLET_VIEW = 'screen and (min-width: 769px) and (max-width: 1024px)';
     NgScrollbarModule,
     TablerIconsModule,
     HeaderComponent,
-    AppTopstripComponent
+    // AppTopstripComponent
   ],
   templateUrl: './full.component.html',
   styleUrls: [],

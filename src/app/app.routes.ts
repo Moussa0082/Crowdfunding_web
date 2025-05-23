@@ -6,6 +6,23 @@ import { AppSideLoginComponent } from './pages/authentication/side-login/side-lo
 export const routes: Routes = [
   {
     path: '',
+    component: AppSideLoginComponent,
+    children: [
+      // {
+      //   path: 'login',
+      //   component: AppSideLoginComponent,
+      // },
+      {
+        path: 'authentication',
+        loadChildren: () =>
+          import('./pages/authentication/authentication.routes').then(
+            (m) => m.AuthenticationRoutes
+          ),
+      },
+    ],
+  },
+  {
+    path: '',
     component: FullComponent,
     children: [
       {
@@ -46,23 +63,7 @@ export const routes: Routes = [
       },
     ],
   },
-  {
-    path: '',
-    component: AppSideLoginComponent,
-    children: [
-      // {
-      //   path: 'login',
-      //   component: AppSideLoginComponent,
-      // },
-      {
-        path: 'authentication',
-        loadChildren: () =>
-          import('./pages/authentication/authentication.routes').then(
-            (m) => m.AuthenticationRoutes
-          ),
-      },
-    ],
-  },
+  
   {
     path: '**',
     redirectTo: 'authentication/error',
