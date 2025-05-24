@@ -1,0 +1,30 @@
+
+
+/* Styles pour le bouton de chargement d'image */
+.image-upload-section {
+    display: flex;
+    flex-direction: column; // Empile le bouton et la prévisualisation
+    align-items: flex-start; // Aligne les éléments à gauche
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .file-upload-button {
+    display: inline-flex; // Pour aligner l'icône et le texte
+    align-items: center;
+    gap: 8px; // Espacement entre l'icône et le texte
+  }
+  
+  .image-preview-card {
+    width: 200px; // Largeur de la carte de prévisualisation
+    max-width: 100%;
+    padding: 0; // Pas de padding interne pour la carte pour que l'image prenne toute la place
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+  
+  .image-preview {
+    width: 100%;
+    height: auto;
+    display: block; // Enlève l'espace blanc en bas de l'image
+    border-radius: 4px; // Petits bords arrondis
+  }

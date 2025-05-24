@@ -9,29 +9,30 @@ export const navItems: NavItem[] = [
     iconName: 'layout-grid-add',
     route: '/dashboard',
   },
+ 
   {
     displayName: 'Liste utilisateur',
-    iconName: 'users',
+    iconName: 'users', // 👤 Liste des utilisateurs
     route: 'admin/user-list',
   },
   {
     displayName: 'Liste contribution',
-    iconName: 'users',
+    iconName: 'dollar-sign', // Ou 'gift'
     route: 'admin/contribution-list',
   },
   {
     displayName: 'Liste campagne',
-    iconName: 'users',
+    iconName: 'megaphone', // Ou 'speaker'
     route: 'admin/campagne-list',
   },
   {
-    displayName: 'Liste categorie',
-    iconName: 'users',
+    displayName: 'Liste catégorie',
+    iconName: 'layers', // Ou 'boxes', 'grid'
     route: 'admin/categorie-list',
   },
   {
     displayName: 'Liste contact',
-    iconName: 'users',
+    iconName: 'phone', // ☎️ Contacts
     route: 'admin/contact-list',
   },
   // {

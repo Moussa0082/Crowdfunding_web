@@ -1,6 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, tap } from 'rxjs';
 import { Utilisateur } from '../models/utilisateur';
 import { environment } from 'src/environnement/environnement';
 
@@ -13,10 +13,54 @@ export class UtilisateurService {
 
   update$ = this.updateEvent.asObservable();
   private baseUrl = '/utilisateur';
+  private userKey = 'utilisateur';  // Key used to store user data in localStorage
+
+  private utilisateur: Utilisateur | null = null;
 
   apiUrl: string = environment.apiUrl + this.baseUrl
-  constructor(private http: HttpClient) { 
+ 
+  private userSubject = new BehaviorSubject<Utilisateur | null>(null);
+  utilisateur$ = this.userSubject.asObservable();
 
+    // Check if the user is logged in
+    isLoggedIn(): boolean {
+      return localStorage.getItem(this.userKey) !== null;
+    }
+    private utilisateurSubject = new BehaviorSubject<Utilisateur | null>(null);
+
+    constructor(private http: HttpClient) {
+      // Chargement depuis localStorage si dispo
+      const userData = localStorage.getItem('utilisateur');
+      if (userData) {
+        this.utilisateurSubject.next(JSON.parse(userData));
+      }
+    }
+  
+    setutilisateurConnect(utilisateur: Utilisateur): void {
+      this.utilisateurSubject.next(utilisateur);
+      localStorage.setItem('utilisateur', JSON.stringify(utilisateur));
+    }
+  
+    getUtilisateurConnect(): Observable<Utilisateur | null> {
+      return this.utilisateurSubject.asObservable();
+    }
+  
+    logout(): void {
+      this.utilisateurSubject.next(null);
+      localStorage.removeItem('utilisateur');
+    }
+
+
+  loginUtilisateur(email: any, password: any): Observable<any> {
+    const params = new HttpParams()
+      .set('email', email)
+      .set('password', password)
+    return this.http.get<any>(`${this.apiUrl}/login`, { params }).pipe(
+      tap(response => {
+        // Stocker les informations de l'utilisateur dans le localStorage
+        localStorage.setItem(this.userKey, JSON.stringify(response));
+      })
+    );
   }
 
   triggerUpdate() {
@@ -46,6 +90,8 @@ export class UtilisateurService {
     return this.http.put<Utilisateur>(`${this.apiUrl}/update/${idUtilisateur}`, formData);
    }
 
+
+ 
    getUtilisateurByIdUtilisateur(idUtilisateur: string): Observable<any> {
     return this.http.get(`${this.apiUrl}/getUtilisateurByIdUtilisateur/${idUtilisateur}`);
   }
@@ -66,9 +112,6 @@ export class UtilisateurService {
     return this.http.get(`${this.apiUrl}/getAllUser`);
   }
 
- 
-   login(user: Utilisateur): Observable<any> {
-    return this.http.post(`${this.apiUrl}/login`, user);
-  }
+
 
 }

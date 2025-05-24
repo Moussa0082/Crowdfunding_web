@@ -1,1 +1,77 @@
-<p>add-up-campagne works!</p>
+
+<mat-card-content class="p-32">
+
+    <h2 mat-dialog-title>{{ isEditMode ? 'Modifier campagne' : 'Ajouter campagne' }}</h2>
+    
+      <form class="m-t-30" [formGroup]="campagneForm"> 
+           <mat-form-field appearance="outline" class="w-100" color="primary">
+             <mat-label >Titre</mat-label>
+            <input matInput formControlName="titre" >
+    
+          </mat-form-field>
+    
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <mat-label>Description</mat-label>
+            <input matInput formControlName="description">
+          </mat-form-field>
+    
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <mat-label>Lieu</mat-label>
+            <input matInput formControlName="lieu" required>
+          
+          </mat-form-field>
+        </div>
+    
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <mat-label>Montant Cible</mat-label>
+            <input matInput formControlName="montantCible" type="number" required>
+           
+          </mat-form-field>
+   
+    
+          <mat-form-field appearance="outline" class="w-100" color="primary">
+            <mat-label>Date Limite</mat-label>
+            <input matInput formControlName="montantActuel" type="datetime" required>
+          </mat-form-field>
+        </div>
+    
+     
+    
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="w-100" color="primary" > <mat-label>Categorie</mat-label>
+            <mat-select formControlName="categorie" required>
+              <mat-option *ngFor="let categorie of categories" [value]="categorie"> {{categorie.nomCategorie}} </mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="userForm.controls['roleUtilisateur'].hasError('required') && userForm.controls['roleUtilisateur'].touched">
+              Le rôle utilisateur est requis.
+            </mat-error> -->
+          </mat-form-field>
+
+    
+          </div>
+    
+        <div class="form-row image-upload-section">
+          <input type="file" id="file-upload" (change)="onFileChange($event)" style="display: none;" accept="image/*">
+          <label for="file-upload" class="mat-raised-button mat-primary file-upload-button"> <mat-icon>cloud_upload</mat-icon>
+            <span>Charger une image</span>
+          </label>
+          <mat-card *ngIf="imagePreview" class="image-preview-card">
+            <img [src]="imagePreview" class="image-preview" alt="Image Preview">
+          </mat-card>
+        </div>
+    
+        <div class="d-flex gap-16 m-t-20">
+          <button mat-flat-button color="warn" class="flex-1" (click)="onNoClick()" type="button">
+            Annuler
+          </button>
+          <button mat-flat-button (click)="onSaves()" color="primary" class="flex-1">
+            {{ isEditMode ? 'Modifier' : 'Ajouter' }}
+          </button>
+        </div>
+    
+      </form>
+    
+    
+    </mat-card-content>
