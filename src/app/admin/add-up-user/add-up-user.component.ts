@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { Router } from '@angular/router';
+import { MaterialModule } from 'src/app/material.module';
 import { Utilisateur } from 'src/app/models/utilisateur';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
 import Swal from 'sweetalert2';
@@ -15,9 +16,11 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-add-up-user',
    imports: [
+    FormsModule,
     MatSelectModule,
     ReactiveFormsModule,
     CommonModule,
+    MaterialModule,
     MatDialogModule,
     MatFormFieldModule,
           MatCardModule,
@@ -143,17 +146,7 @@ export class AddUpUserComponent implements OnInit{
    
 
   onSaves(): void {
-    // if (this.photo == null ) {
-    //   Swal.fire({
-    //     title: 'Erreur!',
-    //     text: 'Une image est requise ',
-    //     icon: 'error',
-    //     confirmButtonText: 'OK'
-    //   })
-    //   return
 
-    // }
-   
       if (this.userForm.valid) {
         if (this.isEditMode) {
           const utilisateur = this.userForm.value;
