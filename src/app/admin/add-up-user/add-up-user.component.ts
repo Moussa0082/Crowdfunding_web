@@ -154,21 +154,19 @@ export class AddUpUserComponent implements OnInit{
 
     // }
    
-      if (this.isEditMode) {
-        const utilisateur = this.userForm.value;
-        console.log("utilisateur value :" ,utilisateur);
-        this.showValidationErrors();
-        const formData = { ...utilisateur };
-        if (this.userForm.valid) {
+      if (this.userForm.valid) {
+        if (this.isEditMode) {
+          const utilisateur = this.userForm.value;
+          console.log("utilisateur value :" ,utilisateur);
+          const formData = { ...utilisateur };
         // Supprimer le champ `password` s’il est vide
-if (!formData.password?.trim()) {
-  delete formData.password;
-}
-        // Modifier marque
+        if (!formData.password?.trim()) {
+          delete formData.password;
+        }
+        // Modifier utilisateur
         this.utilisateurService.modifierUtilisateur(this.data.utilisateur.idUtilisateur, utilisateur, this.photo).subscribe(
           response => {
             Swal.fire('Succès !', 'Utilisateur modifié avec succès', 'success');
-            // console.log("marque modifier : " , response);
             this.dialogRef.close(response);
           },
           error => {
@@ -177,14 +175,11 @@ if (!formData.password?.trim()) {
           }
         );
       } else {
-        // Ajouter une marque
+        // Ajouter un utilisateur 
         const newUtilisateur: Utilisateur = this.userForm.value;
-        // console.log("marque value :" ,newMarque);
-
         this.utilisateurService.ajouterUtilisateur(newUtilisateur, this.photo).subscribe(
           (response) => {
-            // console.log('Marque ajouté avec succès :', response);
-            this.utilisateur.reset();
+            this.userForm.reset();
             Swal.fire('Succès !', 'Utilisateur ajouté avec succès', 'success');
             this.dialogRef.close(response);
           },
@@ -193,12 +188,13 @@ if (!formData.password?.trim()) {
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: error.error.message,
+              text: error,
             });
           }
         );
       }
     }else {
+      this.showValidationErrors();
       Swal.fire({
         icon: 'error',
         title: 'Erreur',
@@ -214,7 +210,7 @@ if (!formData.password?.trim()) {
         const controlErrors = control.errors as ValidationErrors | null; // Assertion de type
         if (controlErrors) {
           Object.keys(controlErrors).forEach(keyError => {
-            // console.log(`Control ${key} has error: ${keyError}`);
+            console.log(`Control ${key} has error: ${keyError}`);
           });
         }
       }

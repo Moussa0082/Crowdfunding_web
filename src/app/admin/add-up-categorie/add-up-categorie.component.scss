@@ -1,0 +1,9 @@
+.entete{
+    text-align: center;
+    margin: 1%;
+}
+
+::ng-deep mat-form-field textarea {
+    min-height: 100px; // ou ce que tu veux
+    resize: vertical;
+  }

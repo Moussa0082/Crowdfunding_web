@@ -37,14 +37,15 @@ export class CategorieService {
     
     modifierCategorie(idCategorie: string, categorie: Categorie, image?: File) {
       const formData = new FormData();
-  
+
       formData.append('categorie', JSON.stringify(categorie));
       if (image) {
         formData.append('image', image);
       }
-  
-      return this.http.put<Categorie>(`${this.apiUrl}/update/${idCategorie}`, formData);
-     }
+    
+      return this.http.put(`${this.apiUrl}/update/${idCategorie}`, formData);
+    }
+    
 
      getAllCategorie(): Observable<any> {
       return this.http.get(`${this.apiUrl}/getAllCategorie`);

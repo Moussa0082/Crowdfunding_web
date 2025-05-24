@@ -1,14 +1,33 @@
+import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
+import { Router, RouterModule } from '@angular/router';
+import { MaterialModule } from 'src/app/material.module';
 import { Categorie } from 'src/app/models/categorie';
 import { CategorieService } from 'src/app/services/categorie.service';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-up-categorie',
-  imports: [],
+  imports: [
+     FormsModule,
+          MaterialModule,
+          RouterModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    CommonModule,
+    MatDialogModule,
+    MatFormFieldModule,
+          MatCardModule,
+          MatIconModule,
+          MatButtonModule,
+  ],
   templateUrl: './add-up-categorie.component.html',
   styleUrl: './add-up-categorie.component.scss'
 })
@@ -45,65 +64,12 @@ implements OnInit{
       nomCategorie: [this.data?.categorie?.nomCategorie || '', Validators.required],
       image: [null],
       description: [this.data?.categorie?.description || '', Validators.required],
-     
     });
-    if (this.isEditMode && this.data?.utilisateur?.photo) {
-      this.imagePreview = this.data.utilisateur.photo;
-    }
-
-  }
-
-
-  // private loadExistingImage(imagePath: string): void {
-  //   // Construct the URL for the existing image
-  //   const imageUrl = `http://localhost/${imagePath}`;
-  //   this.imagePreview = imageUrl;
-  // }
-  private loadExistingImage(imagePath: string): void {
-    // Construct the URL for the existing image
-    const imageUrl = `http://185.194.216.57:9000/marque/${imagePath}`;
-    this.imagePreview = imageUrl;
-  }
-
-
-  // onFileChange(event: Event): void {
-  //   const input = event.target as HTMLInputElement;
-  //   if (input.files && input.files[0]) {
-  //     const file = input.files[0];
-  //     const reader = new FileReader();
-      
-  //     reader.onload = () => {
-  //       this.imagePreview = reader.result;
-  //     };
-      
-  //     reader.readAsDataURL(file);
-  //     this.marqueForm.patchValue({
-  //       logo: file
-  //     });
-  //   }
-  // }
-  onFileChange(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      
-      reader.onload = () => {
-        this.imagePreview = reader.result;
-      };
-      
-      reader.readAsDataURL(file);
-      this.image = file; // Mettre à jour la propriété locale
-      // Reset the file input value to avoid issues
-      input.value = '';
+    if (this.isEditMode && this.data?.categorie?.image) {
+      this.imagePreview = this.data.categorie.image;
     }
   }
 
-  //Afficher le lien de l'image
-  ImageChange(event:any){
-    this.image = event.target.files[0];
-    // console.log("Image uploiarder ", this.logo);
-  }
 
   chargerDonner():void{
     this.categorieService.getAllCategorie().subscribe(data => {
@@ -121,25 +87,14 @@ implements OnInit{
    
 
   onSaves(): void {
-    // if (this.photo == null ) {
-    //   Swal.fire({
-    //     title: 'Erreur!',
-    //     text: 'Une image est requise ',
-    //     icon: 'error',
-    //     confirmButtonText: 'OK'
-    //   })
-    //   return
-
-    // }
    
+    if (this.categorieForm.valid) {
+      // const formData = { ...categorie };
       if (this.isEditMode) {
-        const categorie = this.categorie.value;
-        console.log("categorie value :" ,categorie);
-        this.showValidationErrors();
-        const formData = { ...categorie };
-        if (this.categorieForm.valid) {
+          const categorie = this.categorieForm.value;
+          console.log("categorie value :" ,categorie);
 
-        // Modifier marque
+        // Modifier categorie
         this.categorieService.modifierCategorie(this.data.categorie.idCategorie, categorie, this.image).subscribe(
           response => {
             Swal.fire('Succès !', 'Categorie modifié avec succès', 'success');
@@ -151,14 +106,14 @@ implements OnInit{
           }
         );
       } else {
-        // Ajouter une categorie
+        // Ajouter une categorie   
         const newCategorie: Categorie = this.categorieForm.value;
         // console.log("marque value :" ,newMarque);
 
         this.categorieService.ajouterCategorie(newCategorie, this.image).subscribe(
           (response) => {
             // console.log('Marque ajouté avec succès :', response);
-            this.categorie.reset();
+            this.categorieForm.reset();
             Swal.fire('Succès !', 'Categorie ajouté avec succès', 'success');
             this.dialogRef.close(response);
           },
@@ -167,12 +122,13 @@ implements OnInit{
             Swal.fire({
               icon: 'error',
               title: 'Oops...',
-              text: error.error.message,
+              text: error,
             });
           }
         );
       }
-    }else {
+  }  else {
+    this.showValidationErrors();
       Swal.fire({
         icon: 'error',
         title: 'Erreur',
@@ -180,6 +136,8 @@ implements OnInit{
       });
     }
   }
+
+  
 
   private showValidationErrors() {
     Object.keys(this.categorieForm.controls).forEach(key => {
