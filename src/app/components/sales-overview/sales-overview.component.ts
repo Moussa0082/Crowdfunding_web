@@ -43,6 +43,8 @@ export interface SalesChartOption {
     templateUrl: './sales-overview.component.html',
 })
 export class AppSalesOverviewComponent implements OnInit{
+  SalesChartOption: any;
+
     
     isLoading : boolean = true;
     totalMontantMobiliser: number | null = null;
@@ -50,6 +52,7 @@ export class AppSalesOverviewComponent implements OnInit{
     nombreCampagneValider: number | null = null;
     nombreContribution: number | null = null;
 
+    
     constructor(
         private campagneService:CampagneService, 
         private contributionService:ContributionService, 
@@ -57,6 +60,8 @@ export class AppSalesOverviewComponent implements OnInit{
       ) { }
     
     ngOnInit(): void {
+      
+    
         this.campagneService.getMontantTotalMobiliserCampagne().subscribe(
             (amount) => {
               this.totalMontantMobiliser = amount;
@@ -97,6 +102,99 @@ export class AppSalesOverviewComponent implements OnInit{
               console.error('Erreur lors du chargement du nombre de contribution:', error);
             }
           );
+
+          this.contributionService.getMontantsParCampagne().subscribe(data => {
+            const categories: string[] = [];
+            const validéeData: number[] = [];
+            const enCoursData: number[] = [];
+      
+            data.forEach(item => {
+              categories.push(item.campagne);
+              if (item.statut === 'validée') {
+                validéeData.push(item.montantTotal);
+                enCoursData.push(0); // pour garder l'alignement
+              } else {
+                enCoursData.push(item.montantTotal);
+                validéeData.push(0);
+              }
+            });
+      
+            this.SalesChartOption = {
+              series: [
+                {
+                  name: 'Validée',
+                  data: validéeData,
+                  color: '#fb9678',
+                },
+                {
+                  name: 'En cours',
+                  data: enCoursData,
+                  color: '#03c9d7',
+                },
+              ],
+              xaxis: {
+                categories: categories,
+                axisBorder: { show: false },
+                axisTicks: { show: false }
+              },
+              yaxis: {
+                show: true,
+                labels: {
+                  formatter: (val: number) => val.toLocaleString()
+                }
+              },
+              chart: {
+                toolbar: { show: false },
+                type: 'bar',
+                foreColor: '#adb0bb',
+                fontFamily: "'DM Sans',sans-serif",
+                height: 305,
+              },
+              legend: { show: true },
+              tooltip: { theme: 'dark' },
+              grid: {
+                show: true,
+                borderColor: 'transparent',
+                strokeDashArray: 2,
+                padding: {
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                },
+              },
+              dataLabels: { enabled: false },
+              stroke: {
+                show: true,
+                width: 5,
+                colors: ['none'],
+              },
+              plotOptions: {
+                bar: {
+                  horizontal: false,
+                  columnWidth: '5%',
+                  borderRadius: 5,
+                },
+              },
+            };
+          });
+          // this.contributionService.getMontantsParCampagne().subscribe(data => {
+          //   const categories: string[] = [];
+          //   const seriesData: number[] = [];
+      
+          //   data.forEach(item => {
+          //     categories.push(`${item.campagne} (${item.statut})`);
+          //     seriesData.push(item.montantTotal);
+          //   });
+      
+          //   this.SalesChartOption.series = [
+          //     {
+          //       name: 'Montant collecté',
+          //       data: seriesData
+          //     }
+          //   ];
+      
+          //   this.SalesChartOption.xaxis.categories = categories;
+          // });
     }
 
     

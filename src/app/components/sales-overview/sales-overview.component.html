@@ -163,3 +163,20 @@
     </div>
   </div>
 </div>
+
+
+
+<mat-card class="cardWithShadow overflow-hidden">
+  <mat-card-content>
+    <mat-card-title>Statistique</mat-card-title>
+    <div class="m-t-30">
+      <apx-chart
+        [series]="SalesChartOption.series"
+        [chart]="SalesChartOption.chart"
+        [plotOptions]="SalesChartOption.plotOptions"
+        [dataLabels]="SalesChartOption.dataLabels"
+        [xaxis]="SalesChartOption.xaxis"
+      ></apx-chart>
+    </div>
+  </mat-card-content>
+</mat-card>

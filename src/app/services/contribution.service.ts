@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environnement/environnement';
 import { Contribution } from '../models/contribution';
+import { MontantContributionParCampagne } from '../models/MontantContributionParCampagne';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +29,9 @@ export class ContributionService {
         return this.http.get<number>(`${this.apiUrl}/getNombreContribution`);
        }
     
+       getMontantsParCampagne(): Observable<MontantContributionParCampagne[]> {
+        return this.http.get<MontantContributionParCampagne[]>(`${this.apiUrl}/montants-contributions`);
+      }
     
       ajouterContribution(contribution: Contribution, idCampagne : string , imageFile?: File | null): Observable<any> {
     
