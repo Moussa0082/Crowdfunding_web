@@ -39,6 +39,8 @@ export class CampagneListComponent implements OnInit{
   campagnes: Campagne[] = [];
   loading: boolean = true;
 
+
+
   constructor(private dialog: MatDialog , private cd: ChangeDetectorRef, private campagneService: CampagneService) { }
 
 

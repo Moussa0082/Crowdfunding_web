@@ -159,7 +159,7 @@
                   
                   <div class="m-l-16">
                     <h6 class="f-s-14 f-w-600">
-                      {{ element.pourcentage  }} %
+                      {{ element.pourcentage.toPrecision(2)  }} %
                     </h6>
                   </div>
                 </div>
@@ -272,10 +272,7 @@
                   <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                  <button mat-menu-item (click)="openDialog()">
-                    <mat-icon>add</mat-icon>
-                    <span>Ajouter</span>
-                  </button>
+                 
                   <button mat-menu-item (click)="editElement(element)">
                     <mat-icon>edit</mat-icon>
                     <span>Modifier</span>
