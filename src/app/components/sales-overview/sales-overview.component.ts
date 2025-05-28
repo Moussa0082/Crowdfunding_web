@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MaterialModule } from '../../material.module';
 
 import {
@@ -17,6 +17,9 @@ import {
     NgApexchartsModule,
 } from 'ng-apexcharts';
 import { TablerIconsModule } from 'angular-tabler-icons';
+import { CommonModule } from '@angular/common';
+import { CampagneService } from 'src/app/services/campagne.service';
+import { ContributionService } from 'src/app/services/contribution.service';
 
 export interface SalesChartOption {
     series: ApexAxisChartSeries;
@@ -34,88 +37,147 @@ export interface SalesChartOption {
 
 @Component({
     selector: 'app-sales-overview',
-    imports: [MaterialModule, TablerIconsModule, NgApexchartsModule],
+    imports: [MaterialModule,
+        CommonModule,
+        TablerIconsModule, NgApexchartsModule],
     templateUrl: './sales-overview.component.html',
 })
-export class AppSalesOverviewComponent {
-    @ViewChild('chart') chart: ChartComponent = Object.create(null);
-    public SalesChartOption!: Partial<SalesChartOption> | any;
-    constructor() {
-        this.SalesChartOption = {
-            series: [
-                {
-                    name: 'Ample Admin',
-                    data: [355, 390, 300, 350, 390, 180, 355, 390, 300, 350, 390, 180],
-                    color: '#fb9678',
-                },
-                {
-                    name: 'Pixel Admin',
-                    data: [280, 250, 325, 215, 250, 310, 280, 250, 325, 215, 250, 310],
-                    color: '#03c9d7',
-                },
-            ],
+export class AppSalesOverviewComponent implements OnInit{
+    
+    isLoading : boolean = true;
+    totalMontantMobiliser: number | null = null;
+    nombreCampagneEnCours: number | null = null;
+    nombreCampagneValider: number | null = null;
+    nombreContribution: number | null = null;
 
-            xaxis: {
-                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false,
-                }
-            },
+    constructor(
+        private campagneService:CampagneService, 
+        private contributionService:ContributionService, 
 
-            yaxis: {
-                show: true,
-                max: 400,
+      ) { }
+    
+    ngOnInit(): void {
+        this.campagneService.getMontantTotalMobiliserCampagne().subscribe(
+            (amount) => {
+              this.totalMontantMobiliser = amount;
+              this.isLoading = false;
             },
-
-            chart: {
-                toolbar: {
-                    show: false,
-                },
-                type: 'bar',
-                foreColor: '#adb0bb',
-                fontFamily: "'DM Sans',sans-serif",
-                height: 305,
+            (error) => {
+              console.error('Erreur lors du chargement du montant total mobiliser des campagnes:', error);
+              this.isLoading = false;
+            }
+          );
+          this.campagneService.getNombreCampagneEnCours().subscribe(
+            (amount) => {
+              this.nombreCampagneEnCours = amount;
+              this.isLoading = false;
             },
-
-            legend: {
-                show: false,
+            (error) => {
+              this.isLoading = false;
+              console.error('Erreur lors du chargement du nombre de campagne en cours:', error);
+            }
+          );
+          this.campagneService.getNombreCampagneValider().subscribe(
+            (amount) => {
+              this.isLoading = false;
+              this.nombreCampagneEnCours = amount;
             },
-
-            tooltip: {
-                theme: 'dark',
+            (error) => {
+              this.isLoading = false;
+              console.error('Erreur lors du chargement du nombre de campagne en cours:', error);
+            }
+          );
+          this.contributionService.getNombreContribution().subscribe(
+            (amount) => {
+              this.isLoading = false;
+              this.nombreContribution = amount;
             },
-
-            grid: {
-                show: true,
-                borderColor: 'transparent',
-                strokeDashArray: 2,
-                padding: {
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                },
-            },
-
-            dataLabels: {
-                enabled: false,
-            },
-
-            stroke: {
-                show: true,
-                width: 5,
-                colors: ['none'],
-            },
-
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '42%',
-                    borderRadius: 5,
-                },
-            },
-        };
+            (error) => {
+              this.isLoading = false;
+              console.error('Erreur lors du chargement du nombre de contribution:', error);
+            }
+          );
     }
+
+    
+    // @ViewChild('chart') chart: ChartComponent = Object.create(null);
+    // public SalesChartOption!: Partial<SalesChartOption> | any;
+    // constructor() {
+    //     this.SalesChartOption = {
+    //         series: [
+    //             {
+    //                 name: 'Ample Admin',
+    //                 data: [355, 390, 300, 350, 390, 180, 355, 390, 300, 350, 390, 180],
+    //                 color: '#fb9678',
+    //             },
+    //             {
+    //                 name: 'Pixel Admin',
+    //                 data: [280, 250, 325, 215, 250, 310, 280, 250, 325, 215, 250, 310],
+    //                 color: '#03c9d7',
+    //             },
+    //         ],
+
+    //         xaxis: {
+    //             categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    //             axisBorder: {
+    //                 show: false
+    //             },
+    //             axisTicks: {
+    //                 show: false,
+    //             }
+    //         },
+
+    //         yaxis: {
+    //             show: true,
+    //             max: 400,
+    //         },
+
+    //         chart: {
+    //             toolbar: {
+    //                 show: false,
+    //             },
+    //             type: 'bar',
+    //             foreColor: '#adb0bb',
+    //             fontFamily: "'DM Sans',sans-serif",
+    //             height: 305,
+    //         },
+
+    //         legend: {
+    //             show: false,
+    //         },
+
+    //         tooltip: {
+    //             theme: 'dark',
+    //         },
+
+    //         grid: {
+    //             show: true,
+    //             borderColor: 'transparent',
+    //             strokeDashArray: 2,
+    //             padding: {
+    //                 left: 0,
+    //                 right: 0,
+    //                 bottom: 0,
+    //             },
+    //         },
+
+    //         dataLabels: {
+    //             enabled: false,
+    //         },
+
+    //         stroke: {
+    //             show: true,
+    //             width: 5,
+    //             colors: ['none'],
+    //         },
+
+    //         plotOptions: {
+    //             bar: {
+    //                 horizontal: false,
+    //                 columnWidth: '42%',
+    //                 borderRadius: 5,
+    //             },
+    //         },
+    //     };
+    // }
 }

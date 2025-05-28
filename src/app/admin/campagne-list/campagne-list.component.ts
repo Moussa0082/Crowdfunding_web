@@ -32,7 +32,7 @@ export class CampagneListComponent implements OnInit{
 
   // table 1
   tempStatus!: boolean; // Variable temporaire pour stocker l'état
-  displayedColumns: string[] = ['active', 'prenom', 'nom', 'titre','description' , 'montantCible',  'montantActuel' ,  'pourcentage', 'dateLimite' , 'imageUrl' , 'validee' , 'categorie' , 'dateCreation', 'dateModif', 'action' ];
+  displayedColumns: string[] = ['active', 'prenom','lieu' , 'jourRestant' ,'nom', 'titre','description' , 'montantCible',  'montantActuel' ,  'pourcentage', 'dateLimite' , 'imageUrl' , 'validee' , 'categorie' , 'dateCreation', 'dateModif', 'action' ];
   dataSource = new MatTableDataSource<Campagne>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;

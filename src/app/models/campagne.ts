@@ -9,6 +9,7 @@ export interface Campagne {
     montantActuel: number
     pourcentage: number
     dateLimite: string
+    jourRestant: string
     lieu: string
     dateModif: string
     imageUrl: string

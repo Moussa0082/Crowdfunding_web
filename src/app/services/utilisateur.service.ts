@@ -23,9 +23,9 @@ export class UtilisateurService {
   utilisateur$ = this.userSubject.asObservable();
 
     // Check if the user is logged in
-    isLoggedIn(): boolean {
-      return localStorage.getItem(this.userKey) !== null;
-    }
+    // isLoggedIn(): boolean {
+    //   return localStorage.getItem(this.userKey) !== null;
+    // }
     private utilisateurSubject = new BehaviorSubject<Utilisateur | null>(null);
 
     constructor(private http: HttpClient) {
@@ -34,6 +34,11 @@ export class UtilisateurService {
       if (userData) {
         this.utilisateurSubject.next(JSON.parse(userData));
       }
+    }
+
+    isLoggedIn(): boolean {
+      // Exemple simple avec le localStorage
+      return !!localStorage.getItem('utilisateur');
     }
   
     setutilisateurConnect(utilisateur: Utilisateur): void {

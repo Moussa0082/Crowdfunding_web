@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { TablerIconsModule } from 'angular-tabler-icons';
 import { MaterialModule } from 'src/app/material.module';
-import { Router, RouterModule } from '@angular/router';
+import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { Utilisateur } from 'src/app/models/utilisateur';
@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit{
   ngOnInit(): void {
        this.userSubscription = this.utilisateurService.getUtilisateurConnect().subscribe(user => {
       this.userRecup = user;
+    
       // Si nécessaire, actualiser la vue ou effectuer des actions spécifiques ici
       console.log("user recup :" , this.userRecup)
     });

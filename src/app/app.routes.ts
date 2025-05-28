@@ -2,25 +2,49 @@ import { Routes } from '@angular/router';
 import { BlankComponent } from './layouts/blank/blank.component';
 import { FullComponent } from './layouts/full/full.component';
 import { AppSideLoginComponent } from './pages/authentication/side-login/side-login.component';
+import { AuthGuard } from './services/auth.guard';
+import { HomeComponent } from './user/home/home.component';
 
 export const routes: Routes = [
-  {
-    path: '',
-    component: AppSideLoginComponent,
-    children: [
-      // {
-      //   path: 'login',
-      //   component: AppSideLoginComponent,
-      // },
-      {
-        path: 'authentication',
-        loadChildren: () =>
-          import('./pages/authentication/authentication.routes').then(
-            (m) => m.AuthenticationRoutes
-          ),
-      },
-    ],
-  },
+  // {
+  //   path: '',
+  //   component: AppSideLoginComponent,
+  //   // canActivate: [AuthGuard]
+  //   children: [
+  //     // {
+  //     //   path: 'login',
+  //     //   component: AppSideLoginComponent,
+  //     // },
+  //     {
+  //       path: 'authentication',
+  //       loadChildren: () =>
+  //         import('./pages/authentication/authentication.routes').then(
+  //           (m) => m.AuthenticationRoutes
+  //         ),
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: '',
+  //   component: HomeComponent,
+  //   // canActivate: [AuthGuard]
+  //   children: [
+  //     // {
+  //     //   path: 'login',
+  //     //   component: AppSideLoginComponent,
+  //     // },
+  //     {
+  //       path: 'home',
+  //       loadChildren: () =>
+  //         import('./user/user-components.routes').then(
+  //           (m) => m.UserComponentsRoutes
+  //         ),
+  //     },
+  //   ],
+  // },
+  
+ 
+
   {
     path: '',
     component: FullComponent,
@@ -29,6 +53,7 @@ export const routes: Routes = [
         path: '',
         redirectTo: '/dashboard',
         pathMatch: 'full',
+        
       },
       {
         path: 'dashboard',

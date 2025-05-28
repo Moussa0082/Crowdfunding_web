@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
@@ -8,11 +8,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { Router, RouterModule } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { MaterialModule } from 'src/app/material.module';
 import { Campagne } from 'src/app/models/campagne';
 import { Categorie } from 'src/app/models/categorie';
+import { Utilisateur } from 'src/app/models/utilisateur';
 import { CampagneService } from 'src/app/services/campagne.service';
 import { CategorieService } from 'src/app/services/categorie.service';
+import { UtilisateurService } from 'src/app/services/utilisateur.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -41,6 +44,7 @@ export class AddUpCampagneComponent implements OnInit{
   categories: Categorie[] = [];
   isEditMode: boolean;
   photo!:File;
+  selectedUtilisateur!:Utilisateur
 
   // public imagePreview: string | ArrayBuffer | null = '../../../assets/images/preview.jpeg';
    
@@ -49,18 +53,30 @@ export class AddUpCampagneComponent implements OnInit{
   // imagePreview: string | ArrayBuffer | null = null;
   imagePreview: string | ArrayBuffer | null = null;
   hidePassword = true;
+  userRecup!:any | null;
+  minDate!:any;
+  private userSubscription!: Subscription;
+  minDateTime!: string;
+
   
   constructor(
     public dialogRef: MatDialogRef<AddUpCampagneComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private route:Router,
     private campagneService:CampagneService,
+    private utilisateurService:UtilisateurService,
     private categorieService:CategorieService, private fb: FormBuilder
   ){
     
   }
   
   ngOnInit(): void {
+    this.minDateTime = this.getMinDateTime();
+    this.userSubscription = this.utilisateurService.getUtilisateurConnect().subscribe(user => {
+   this.userRecup = user;
+   // Si nécessaire, actualiser la vue ou effectuer des actions spécifiques ici
+   console.log("user recup :" , this.userRecup)
+ });
     this.isEditMode = !!this.data.campagne; // Si une campagne est passé, alors c'est le mode édition
     this.campagneForm = this.fb.group({
       idCampagne: [ this.isEditMode ? this.data.campagne?.idCampagne : '', this.isEditMode ? Validators.required : null],
@@ -69,9 +85,8 @@ export class AddUpCampagneComponent implements OnInit{
       description: [this.data?.campagne?.description || '', Validators.required],
       lieu: [this.data?.campagne?.lieu || '', Validators.required],
       montantCible: [this.data?.campagne?.montantCible || '', Validators.required],
-      montantActuel: [this.data?.campagne?.montantActuel || '', Validators.required],
       dateLimite: [this.data?.campagne?.dateLimite || '', Validators.required],
-      createur: [this.data?.campagne?.createur || '', Validators.required],
+      createur: [this.userRecup.utilisateur, Validators.required],
       categorie: [this.data?.campagne?.categorie || '', Validators.required],
       active: [this.data?.utilisateur?.active ?? true],
     });
@@ -82,13 +97,54 @@ export class AddUpCampagneComponent implements OnInit{
     this.categorieService.getAllCategorie().subscribe(
       data => {
         this.categories = data;
-        console.log("liste des categories: ", this.categories);
+        // console.log("liste des categories: ", this.categories);
       },
       error => {
         console.error('Erreur lors du chargement de la liste des vcategories :', error);
       }
     );
+    this.isEditMode ? this.loadSelectOptions() : null;
 
+  }
+
+
+  private loadSelectOptions(): void {
+    this.categorieService.getAllCategorie().subscribe(
+      (categroies: Categorie[]) => {
+        this.categories = categroies;
+        
+        // Pour le mode édition, assurez-vous que la valeur du formulaire est correctement définie
+        if (this.isEditMode && this.data.campagne?.categorie) {
+          const categorie = this.categories.find(r => r.idCategorie === this.data.campagne.categorie.idCategorie);
+          if (categorie) {
+            this.campagneForm.patchValue({ categorie: categorie });
+            console.log("voiture louer pour la livrason  mcll:", categorie.nomCategorie);
+          }
+        }
+      },
+      error => {
+        console.error('Erreur lors du chargement de la categorie de la campagne :', error);
+      }
+    );
+
+  }
+
+  
+  getMinDateTime(): string {
+    const now = new Date();
+    now.setDate(now.getDate() + 2);
+    return now.toISOString().slice(0, 16); // Format 'YYYY-MM-DDTHH:mm'
+  }
+
+  // Validator personnalisé pour le contrôle de date
+  dateMinValidator(): (control: AbstractControl) => ValidationErrors | null {
+    return (control: AbstractControl): ValidationErrors | null => {
+       this.minDate = new Date();
+      if (!control.value) return null;
+      const selectedDate = new Date(control.value);
+      // this.minDate.setDate(this.minDate.getDate() + 2);
+      return selectedDate >= this.minDate ? null : { dateMin: true };
+    };
   }
 
 
@@ -146,11 +202,12 @@ export class AddUpCampagneComponent implements OnInit{
 
   onSaves(): void {
 
+    
       if (this.campagneForm.valid) {
+        const campagne = this.campagneForm.value;
+        console.log("campagne value :" ,campagne);
         if (this.isEditMode) {
-          const campagne = this.campagneForm.value;
-          console.log("campagne value :" ,campagne);
-          const formData = { ...campagne };
+          // const formData = { ...campagne };
         // Supprimer le champ `password` s’il est vide
        
         // Modifier campagne

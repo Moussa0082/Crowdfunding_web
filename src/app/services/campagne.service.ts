@@ -22,6 +22,21 @@ export class CampagneService {
     triggerUpdate() {
       this.updateEvent.next();
     }
+
+   
+    getNombreCampagneValider(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/getNombreCampagneValider`);
+   }
+
+
+    getMontantTotalMobiliserCampagne(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/getMontantTotalMobiliserCampagne`);
+   }
+
+
+    getNombreCampagneEnCours(): Observable<number> {
+    return this.http.get<number>(`${this.apiUrl}/getNombreCampagneEnCours`);
+   }
   
     ajouterCampagne(campagne: Campagne, imageFile?: File | null): Observable<any> {
   

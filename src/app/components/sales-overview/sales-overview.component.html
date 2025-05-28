@@ -1,4 +1,4 @@
-<mat-card class="cardWithShadow overflow-hidden">
+<!-- <mat-card class="cardWithShadow overflow-hidden">
     <mat-card-content>
         <mat-card-title>Statistique</mat-card-title>
         <div class="m-t-30">
@@ -9,4 +9,157 @@
         </div>
     </mat-card-content>
 
-</mat-card>
+</mat-card> -->
+
+
+<style>
+ .container {
+  margin: 2%;
+}
+
+.card {
+  border-radius: 10px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card-body {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.material-icons {
+  font-size: 36px;
+}
+
+.card-title {
+  margin-bottom: 0.5rem;
+}
+
+.card-text {
+  margin-bottom: 0;
+}
+
+.font-weight-bold {
+  font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    flex-direction: column;
+    text-align: center;
+  }
+
+ .card {
+  margin: 5%;
+}
+
+  .material-icons {
+    margin-bottom: 1rem;
+  }
+}
+
+</style>
+
+<div class="container mt-4">
+  <div class="row g-3">
+    <!-- Card 1 -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card border-primary h-100 w-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <i class="material-icons text-success">attach_money</i>
+            <div class="ms-3">
+              <h5 class="card-title">Sommes total mobiliser</h5>
+              <div *ngIf="isLoading" class="d-flex justify-content-center">
+                <mat-progress-spinner
+                  mode="indeterminate"
+                  diameter="50"
+                  color="primary">
+                </mat-progress-spinner>
+              </div>
+              <h3 *ngIf="!isLoading" class="card-text font-weight-bold">
+                {{ totalMontantMobiliser != null  ? totalMontantMobiliser : 0 }} F
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card border-success h-100 w-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <i class="material-icons text-primary">hourglass_top</i>
+            <div class="ms-3">
+              <h5 class="card-title">Nombre de campagnes en cours</h5>
+              <div *ngIf="isLoading" class="d-flex justify-content-center">
+                <mat-progress-spinner
+                  mode="indeterminate"
+                  diameter="50"
+                  color="primary">
+                </mat-progress-spinner>
+              </div>
+              <h3 *ngIf="!isLoading" class="card-text font-weight-bold">
+                {{ nombreCampagneEnCours != null ? nombreCampagneEnCours : 0 }} 
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card border-success h-100 w-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <i class="material-icons text-success">check_circle</i>
+            <div class="ms-3">
+              <h5 class="card-title">Nombre de campagnes valider</h5>
+              <div *ngIf="isLoading" class="d-flex justify-content-center">
+                <mat-progress-spinner
+                  mode="indeterminate"
+                  diameter="50"
+                  color="primary">
+                </mat-progress-spinner>
+              </div>
+              <h3 *ngIf="!isLoading" class="card-text font-weight-bold">
+                {{ nombreCampagneValider != null ? nombreCampagneValider : 0 }} 
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card border-warning h-100 w-100">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <i class="material-icons text-danger">volunteer_activism</i>
+            <div class="ms-3">
+              <h5 class="card-title">Nombre de contribution</h5>
+              <div *ngIf="isLoading" class="d-flex justify-content-center">
+                <mat-progress-spinner
+                  mode="indeterminate"
+                  diameter="50"
+                  color="primary">
+                </mat-progress-spinner>
+              </div>
+              <h3 *ngIf="!isLoading" class="card-text font-weight-bold">
+                {{ nombreContribution != null ? nombreContribution : 0 }} 
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -23,6 +23,11 @@ export class ContributionService {
       triggerUpdate() {
         this.updateEvent.next();
       }
+
+      getNombreContribution(): Observable<number> {
+        return this.http.get<number>(`${this.apiUrl}/getNombreContribution`);
+       }
+    
     
       ajouterContribution(contribution: Contribution, idCampagne : string , imageFile?: File | null): Observable<any> {
     
